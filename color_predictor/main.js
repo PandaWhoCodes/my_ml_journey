@@ -5,7 +5,14 @@ var locations = [[150,350],[1000,350]];
 var training_data = [];
 var output_data = [];
 var count = 0;
-var net = new brain.NeuralNetwork();
+var config = {
+    inputSize: 1,
+    hiddenSizes:[2],
+    outputSize: 1,
+    learningRate: 0.1,
+};
+
+var net = new brain.NeuralNetwork(config);
 
 function gen_random_color()
 {
@@ -57,15 +64,15 @@ function keyPressed() {
     else if (keyCode === LEFT_ARROW) {
         op = "white";
     }
-    training_data.push({ "rr": r, "gg": g, "bb": b });
-    output_data.push({ "op": op });
+    training_data.push(parseInt(r+g+b));
+    output_data.push(op);
     count++;
     var to_train = get_formatted();
     console.log(to_train);
     net.train(
     to_train
      );
-    var opp=net.run({ "rr": r, "gg": g, "bb": b });
+    var opp=net.run(parseInt(r+g+b));
     console.log(opp);
   }
 function get_formatted()

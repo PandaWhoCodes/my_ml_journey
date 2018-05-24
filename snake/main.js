@@ -22,17 +22,17 @@ function draw() {
   background(0);
   s.move();
   s.show();
-  s.die();
-  if (s.eat_food() == true)
-  {
-  count++;
-  fill(0);
-  console.log(count,s.tail);
-  rect(food.x,food.y,20,20);
-  food_location();
-  }
-  fill (255,100,100);
-  rect(food.x,food.y,20,20);
+//  s.die();
+//  if (s.eat_food() == true)
+//  {
+//  count++;
+//  fill(0);
+//  console.log(count,s.tail);
+//  rect(food.x,food.y,20,20);
+//  food_location();
+//  }
+//  fill (255,100,100);
+//  rect(food.x,food.y,20,20);
 }
 
 function Snake() {
@@ -43,37 +43,13 @@ function Snake() {
   this.yspeed = 0;
 
   this.move = function(){
-    if (count === this.tail.length) {
-      for (var i = 0; i < this.tail.length-1; i++) {
-        this.tail[i] = this.tail[i+1];
-    }
-
-    }
-    this.tail[count-1] = createVector(this.x, this.y);
-
 
     this.x = this.x + this.xspeed*20;
     this.y = this.y + this.yspeed*20 ;
   }
 
-  this.eat_food = function()
-  {
-    var distance = dist(this.x,this.y,food.x,food.y);
-    if(distance < 15)
-    {
-    console.log("FOOD");
-    return true;
-
-    }
-    return false;
-  }
-
   this.show = function(){
     fill(255);
-    for(var i=0;i<count;i++)
-    {
-     rect(this.tail[i].x, this.tail[i].y, 20,20);
-    }
     rect(this.x, this.y, 20,20);
   }
   this.chng_dir = function(x,y)
