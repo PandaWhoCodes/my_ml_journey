@@ -1,53 +1,46 @@
-import os
-import timeit
-import cv2
-from skimage import io as io
-import face_recognition as fr
-import numpy as np
 import pickle
-from tqdm import tqdm
 from sklearn import datasets, svm, metrics
 import random
 from matplotlib import pyplot as plt
 
 
-def extract_data():
-    with open('classifier.pkl', 'rb') as f:
+def extract_data(pkl):
+    with open(pkl, 'rb') as f:
         gender_dataset = pickle.load(f)
-        # random.shuffle(gender_dataset)
+        random.shuffle(gender_dataset)
+        # print(gender_dataset)
         return gender_dataset
 
 
 def load_train_data(pkl):
-    print(pkl)
-    train_data = list()
-    gender_train = list()
+    train_data = []
+    gender_train = []
 
-    embedding_list_test = list()
-    gender_label_list_test = list()
+    embedding_list_test = []
+    gender_label_list_test = []
 
-    for emb, label in pkl[1:1200]:
+    for emb, label in pkl[:len(pkl) // 2]:
         train_data.append(emb)
         gender_train.append(label)
 
-    for emb, label in pkl[1201:]:
+    for emb, label in pkl[len(pkl) // 2:]:
         embedding_list_test.append(emb)
         gender_label_list_test.append(label)
-
+    embedding_list_test.pop()
+    gender_label_list_test.pop()
     print('length of embedding train list: {}'.format(len(train_data)))
     print('lenght of label train list: {}'.format(len(gender_train)))
     print('length of embedding test list: {}'.format(len(embedding_list_test)))
     print('lenght of label test list: {}'.format(len(gender_label_list_test)))
+    classifier = svm.SVC(gamma='auto', kernel='rbf', C=20)
+    classifier.fit(train_data, gender_label_list_test)
 
-# load_train_data(extract_data())
+    expected = gender_label_list_test
+    predicted = classifier.predict(embedding_list_test)
 
-# def test():
-#     classifier = svm.SVC(gamma='auto', kernel='rbf', C=20)
-#     classifier.fit(embedding_list_train, gender_label_list_train)
-#
-#     expected = gender_label_list_test
-#     predicted = classifier.predict(embedding_list_test)
-#
-#     print("Classification report for classifier %s:\n%s\n"
-#           % (classifier, metrics.classification_report(expected, predicted)))
-#     print("Confusion matrix:\n%s" % metrics.confusion_matrix(expected, predicted))
+    print("Classification report for classifier %s:\n%s\n"
+          % (classifier, metrics.classification_report(expected, predicted)))
+    print("Confusion matrix:\n%s" % metrics.confusion_matrix(expected, predicted))
+
+
+load_train_data(extract_data("gender_data.pkl"))
