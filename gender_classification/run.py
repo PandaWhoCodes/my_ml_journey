@@ -19,6 +19,7 @@ def extract_data():
 
 
 def load_train_data(pkl):
+    print(pkl)
     train_data = list()
     gender_train = list()
 
@@ -38,4 +39,15 @@ def load_train_data(pkl):
     print('length of embedding test list: {}'.format(len(embedding_list_test)))
     print('lenght of label test list: {}'.format(len(gender_label_list_test)))
 
-load_train_data(extract_data())
+# load_train_data(extract_data())
+
+# def test():
+#     classifier = svm.SVC(gamma='auto', kernel='rbf', C=20)
+#     classifier.fit(embedding_list_train, gender_label_list_train)
+#
+#     expected = gender_label_list_test
+#     predicted = classifier.predict(embedding_list_test)
+#
+#     print("Classification report for classifier %s:\n%s\n"
+#           % (classifier, metrics.classification_report(expected, predicted)))
+#     print("Confusion matrix:\n%s" % metrics.confusion_matrix(expected, predicted))
