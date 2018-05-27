@@ -24,7 +24,7 @@ def convert():
     principalComponents = pca.fit_transform(x)
     principalDf = pd.DataFrame(data=principalComponents
                                , columns=['principal component 1'])
-    print(principalDf)
+    # print(principalDf)
 
 
 convert()
