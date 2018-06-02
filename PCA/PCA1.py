@@ -33,7 +33,7 @@ from sklearn.decomposition import PCA
 # define a matrix
 # print(A)
 # create the PCA instance
-pca = PCA(2)
+pca = PCA(1)
 # fit on data
 pca.fit(A)
 # access values and vectors
@@ -41,10 +41,9 @@ pca.fit(A)
 # print(pca.explained_variance_)
 # transform data
 B = pca.transform(A)
-# print(B)
+print(B)
 px2 = B.reshape((-1,3))
-
-df = pd.DataFrame({'PCA_1':px2[:,0],'PCA_2':px2[:,1]})
+df = pd.DataFrame({'PCA_1':px2[:,0]})
 print(df)
 df.plot(style='o')
 plt.show()
